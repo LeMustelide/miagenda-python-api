@@ -1,0 +1,9 @@
+selenium==4.12.0
+Flask==2.3.3
+beautifulsoup4==4.12.2
+flask_cors
+gunicorn
+pytz
+redis
+icalendar==5.0.7
+requests
