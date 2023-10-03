@@ -28,14 +28,14 @@ def fetch_ical_events(url):
         if professor_index and professor_index > 0:
             possible_professor = description_lines[professor_index]
             # Vérifier si le "possible_professor" est en réalité un groupe ou non
-            if any(keyword in possible_professor for keyword in ["Gr ", "Gr TP", "ANG", "M1"]):
+            if any(keyword in possible_professor for keyword in ["Gr ", "Gr TP", "ANG", "M1", "G "]):
                 professor = ""
             else:
                 professor = possible_professor
         else:
             professor = ""
 
-        groups = [line for line in description_lines if "Gr " in line or "Gr TP" in line or "ANG" in line or "M1" in line]
+        groups = [line for line in description_lines if "Gr " in line or "Gr TP" in line or "ANG" in line or "M1" in line or "G " in line]
 
         local_timezone = timezone('Europe/Paris')  # Remplacez par votre fuseau horaire
         start_time_utc = component.get('dtstart').dt
