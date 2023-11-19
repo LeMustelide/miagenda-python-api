@@ -83,7 +83,7 @@ def fetch_ical_events(url):
         else:
             professor = ""
 
-        groups = [line for line in description_lines if "Gr " in line or "Gr TP" in line or "ANG" in line or "M1" in line or "ALT" in line]
+        groups = [line for line in description_lines if "Gr " in line or "Gr TP" in line or "ANG" in line or "M1" in line or "ALT" in line or "GR" in line]
 
         local_timezone = timezone('Europe/Paris')
         start_time_utc = component.get('dtstart').dt
