@@ -47,12 +47,26 @@ def events():
             events_data = json.loads(redis_conn.get(last_successful_events_key).decode('utf-8'))
             timestamp = last_successful_fetch.strftime(DATE_FORMAT)
         else:
-            events_data = fetch_ical_events(ical_url)
-            redis_conn.set(last_successful_fetch_key, datetime.now(paris_tz).strftime(DATE_FORMAT))
-            redis_conn.set(last_successful_events_key, json.dumps(events_data))
-            timestamp = datetime.now(paris_tz).strftime(DATE_FORMAT)
+            try:
+                events_data = fetch_ical_events(ical_url)
+                redis_conn.set(last_successful_fetch_key, datetime.now(paris_tz).strftime(DATE_FORMAT))
+                redis_conn.set(last_successful_events_key, json.dumps(events_data))
+                timestamp = datetime.now(paris_tz).strftime(DATE_FORMAT)
+            except Exception as e:
+                if redis_conn.get(last_successful_events_key):
+                    events_data = json.loads(redis_conn.get(last_successful_events_key).decode('utf-8'))
+                    timestamp = last_successful_fetch.strftime(DATE_FORMAT)
+                else:
+                    return jsonify({"error": str(e)}), 500
     else:
-        events_data = fetch_ical_events(ical_url)
+        try:
+            events_data = fetch_ical_events(ical_url)
+        except Exception as e:
+            if redis_conn.get(last_successful_events_key):
+                events_data = json.loads(redis_conn.get(last_successful_events_key).decode('utf-8'))
+                timestamp = last_successful_fetch.strftime(DATE_FORMAT)
+            else:
+                return jsonify({"error": str(e)}), 500
         redis_conn.set(last_successful_fetch_key, datetime.now(paris_tz).strftime(DATE_FORMAT))
         redis_conn.set(last_successful_events_key, json.dumps(events_data))
         timestamp = datetime.now(paris_tz).strftime(DATE_FORMAT)
