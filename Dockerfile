@@ -2,6 +2,7 @@
 FROM joyzoursky/python-chromedriver
 
 # Copiez vos scripts et fichiers nécessaires dans le conteneur
+COPY ./app /app/app
 COPY ./index.py /app/index.py
 COPY ./requirements.txt /app/requirements.txt
 

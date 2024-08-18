@@ -8,6 +8,8 @@ services:
       - cache:/data
     # networks:
     #   - traefik_default
+    ports:
+      - 6379:6379
   api.miagenda.fr:
     image: ghcr.io/lemustelide/api.miagenda.fr:latest
     depends_on:
